@@ -26,6 +26,12 @@ public class RestaurantRepositoryImpl implements RestaurantRepository {
                 .filter(r -> r.getId().equals(id))
                 .findFirst()
                 .orElse(null);
+    }
 
+    @Override
+    public Restaurant save(Restaurant restaurant) {
+        restaurant.setId(1234);
+        restaurants.add(restaurant);
+        return restaurant;
     }
 }
