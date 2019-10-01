@@ -9,7 +9,7 @@ import java.util.List;
 public class MenuItemRepositoryImpl implements MenuItemRepository{
     private List<MenuItem> menuItems = new ArrayList<>();
 
-    MenuItemRepositoryImpl(){
+    public MenuItemRepositoryImpl(){
         menuItems.add(new MenuItem("Kimchi"));
     }
 
