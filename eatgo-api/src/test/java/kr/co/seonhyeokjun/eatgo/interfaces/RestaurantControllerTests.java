@@ -1,9 +1,14 @@
 package kr.co.seonhyeokjun.eatgo.interfaces;
 
+import kr.co.seonhyeokjun.eatgo.domain.MenuItemRepository;
+import kr.co.seonhyeokjun.eatgo.domain.MenuItemRepositoryImpl;
+import kr.co.seonhyeokjun.eatgo.domain.RestaurantRepository;
+import kr.co.seonhyeokjun.eatgo.domain.RestaurantRepositoryImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -18,6 +23,12 @@ public class RestaurantControllerTests {
 
     @Autowired
     private MockMvc mvc;
+
+    @SpyBean(RestaurantRepositoryImpl.class)
+    private RestaurantRepository restaurantRepository;
+
+    @SpyBean(MenuItemRepositoryImpl.class)
+    private MenuItemRepository menuItemRepository;
 
     @Test
     public void list() throws Exception {
@@ -40,6 +51,9 @@ public class RestaurantControllerTests {
                 ))
                 .andExpect(content().string(
                         containsString("\"name\":\"Bob zip\"")
+                ))
+                .andExpect(content().string(
+                       containsString("Kimchi")
                 ));
 
         mvc.perform(get("/restaurants/2020"))
