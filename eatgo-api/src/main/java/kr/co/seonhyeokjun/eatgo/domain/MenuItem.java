@@ -1,9 +1,6 @@
 package kr.co.seonhyeokjun.eatgo.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,6 +17,7 @@ public class MenuItem {
     @GeneratedValue
     private Long id;
 
+    @Setter
     private Long restaurantId;
 
     private String name;
