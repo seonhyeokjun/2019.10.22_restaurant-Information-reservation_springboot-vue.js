@@ -60,16 +60,6 @@ public class RestaurantControllerTests {
                 .name("JOKER House")
                 .address("Seoul")
                 .build();
-        MenuItem menuItem = MenuItem.builder()
-                .name("Kimchi")
-                .build();
-        restaurant.setMenuItems(Arrays.asList(menuItem));
-        Review review = Review.builder()
-                .name("JOKER")
-                .score(5)
-                .description("Great!")
-                .build();
-        restaurant.setReviews(Arrays.asList(review));
 
         given(restaurantService.getRestaurant(1004L)).willReturn(restaurant);
 
@@ -80,12 +70,6 @@ public class RestaurantControllerTests {
                 ))
                 .andExpect(content().string(
                         containsString("\"name\":\"JOKER House\"")
-                ))
-                .andExpect(content().string(
-                       containsString("Kimchi")
-                ))
-                .andExpect(content().string(
-                        containsString("Great!")
                 ));
     }
 
@@ -135,7 +119,7 @@ public class RestaurantControllerTests {
                 .content("{\"name\" : \"JOKER Bar\",\"address\" : \"Busan\"}"))
                 .andExpect(status().isOk());
 
-        verify(restaurantService).updateRestaurant(1004L, "JOKER Bar", "Busan");
+        verify(restaurantService).updateRestaurant(1004L,  "JOKER Bar", "Busan");
     }
 
     @Test

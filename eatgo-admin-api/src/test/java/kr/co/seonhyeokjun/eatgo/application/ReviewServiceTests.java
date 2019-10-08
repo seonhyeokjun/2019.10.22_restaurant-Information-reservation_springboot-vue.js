@@ -4,14 +4,22 @@ import kr.co.seonhyeokjun.eatgo.domain.Review;
 import kr.co.seonhyeokjun.eatgo.domain.ReviewRepository;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
 public class ReviewServiceTests {
 
+    @InjectMocks
     private ReviewService reviewService;
 
     @Mock
@@ -25,15 +33,17 @@ public class ReviewServiceTests {
     }
 
     @Test
-    public void addReview(){
-        Review review = Review.builder()
-                .name("JOKER")
-                .score(3)
-                .description("Mat-it-da")
-                .build();
+    public void getReviews(){
+        List<Review> mockReviews = new ArrayList<>();
+        mockReviews.add(Review.builder().description("Cool!").build());
 
-        reviewService.addReview(1004L, review);
+        given(reviewRepository.findAll()).willReturn(mockReviews);
 
-        verify(reviewRepository).save(any());
+        List<Review> reviews = reviewService.getReviews();
+
+        Review review = reviews.get(0);
+
+        assertThat(review.getDescription(), is("Cool!"));
     }
+
 }
