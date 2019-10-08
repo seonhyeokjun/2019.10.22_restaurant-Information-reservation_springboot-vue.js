@@ -23,13 +23,4 @@ public class RegionService {
         return regions;
     }
 
-    public Region addRegion(String name) {
-        Region region = Region.builder()
-                .name(name)
-                .build();
-
-        regionRepository.save(region);
-
-        return region;
-    }
 }
