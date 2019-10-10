@@ -1,6 +1,5 @@
 package kr.co.seonhyeokjun.eatgo.application;
 
-import kr.co.seonhyeokjun.eatgo.application.RestaurantService;
 import kr.co.seonhyeokjun.eatgo.domain.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -46,13 +45,15 @@ public class RestaurantServiceTests {
         List<Restaurant> restaurants = new ArrayList<>();
         Restaurant restaurant = Restaurant.builder()
                 .id(1004L)
+                .categoryId(1L)
                 .name("Bob zip")
                 .address("Seoul")
                 .build();
 
         restaurants.add(restaurant);
 
-        given(restaurantRepository.findAll()).willReturn(restaurants);
+        given(restaurantRepository.findAllByAddressContainingAndCategoryId("Seoul", 1L))
+                .willReturn(restaurants);
 
         given(restaurantRepository.findById(1004L)).willReturn(Optional.of(restaurant));
 
@@ -80,7 +81,10 @@ public class RestaurantServiceTests {
 
     @Test
     public void getRestaurants(){
-        List<Restaurant> restaurants = restaurantService.getRestaurants();
+        String region = "Seoul";
+        Long categoryId = 1L;
+
+        List<Restaurant> restaurants = restaurantService.getRestaurants(region, categoryId);
 
         Restaurant restaurant = restaurants.get(0);
 
