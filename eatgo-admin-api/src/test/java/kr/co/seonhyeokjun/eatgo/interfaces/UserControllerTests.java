@@ -2,7 +2,6 @@ package kr.co.seonhyeokjun.eatgo.interfaces;
 
 import kr.co.seonhyeokjun.eatgo.application.UserService;
 import kr.co.seonhyeokjun.eatgo.domain.User;
-import org.apache.catalina.Group;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +15,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.core.StringContains.containsString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -67,6 +66,31 @@ public class UserControllerTests {
                 .andExpect(status().isCreated());
 
         verify(userService).addUser(email, name);
+    }
+
+    @Test
+    public void update() throws Exception {
+
+        mvc.perform(patch("/users/1004")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"email\":\"admin@example.com\", " +
+                        "\"name\":\"Administrator\", \"level\":100}"))
+                .andExpect(status().isOk());
+
+        Long id = 1004L;
+        String email = "admin@example.com";
+        String name = "Administrator";
+        Long level = 100L;
+
+        verify(userService).updateUser(eq(id), eq(email), eq(name), eq(level));
+    }
+
+    @Test
+    public void deactivate() throws Exception {
+        mvc.perform(delete("/users/1004"))
+                .andExpect(status().isOk());
+
+        verify(userService).deactiveUser(1004L);
     }
 
 }

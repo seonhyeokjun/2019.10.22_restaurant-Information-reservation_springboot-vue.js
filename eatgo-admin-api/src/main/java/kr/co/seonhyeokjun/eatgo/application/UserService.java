@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -25,6 +26,29 @@ public class UserService {
     }
 
     public User addUser(String email, String name) {
-        return null;
+        User user = User.builder()
+                .email(email)
+                .name(name)
+                .level(1L)
+                .build();
+        return userRepository.save(user);
+    }
+
+    public User updateUser(Long id, String email, String name, Long level) {
+        User user = userRepository.findById(id).orElse(null);
+
+        user.setEmail(email);
+        user.setName(name);
+        user.setLevel(level);
+
+        return user;
+    }
+
+    public User deactiveUser(Long id) {
+        User user = userRepository.findById(id).orElse(null);
+
+        user.deativate();
+
+        return user;
     }
 }

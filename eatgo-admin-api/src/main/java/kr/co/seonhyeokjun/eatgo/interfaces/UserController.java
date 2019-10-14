@@ -4,10 +4,7 @@ import kr.co.seonhyeokjun.eatgo.application.UserService;
 import kr.co.seonhyeokjun.eatgo.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -39,9 +36,26 @@ public class UserController {
         return ResponseEntity.created(new URI(url)).body("{}");
     }
 
-    // 1. User list
-    // 2. User create -> 회원 가입
-    // 3. User Update
-    // 4. User delete -> level: 0 => 아무 것도 못 함.
-    // (1: customer, 2: restaurant owner, 3: admin)
+    @PatchMapping("/users/{id}")
+    public String update(
+            @PathVariable("id") Long id,
+            @RequestBody User resource
+    ){
+        String email = resource.getEmail();
+        String name = resource.getName();
+        Long level = resource.getLevel();
+
+        userService.updateUser(id, email, name, level);
+
+        return "{}";
+    }
+
+    @DeleteMapping("/users/{id}")
+    public  String delete(
+            @PathVariable("id") Long id
+    ){
+        userService.deactiveUser(id);
+        return "{}";
+    }
+
 }

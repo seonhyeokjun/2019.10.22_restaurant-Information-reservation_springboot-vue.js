@@ -1,9 +1,6 @@
 package kr.co.seonhyeokjun.eatgo.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,16 +19,27 @@ public class User {
     @GeneratedValue
     private Long id;
 
+    @Setter
     @NotEmpty
     private String email;
 
+    @Setter
     @NotEmpty
     private String name;
 
+    @Setter
     @NotNull
     private Long level;
 
     public boolean isAdmin() {
         return level >= 100;
+    }
+
+    public boolean isActive() {
+        return level > 0;
+    }
+
+    public void deativate() {
+        level = 0L;
     }
 }
