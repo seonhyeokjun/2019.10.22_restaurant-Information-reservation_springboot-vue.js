@@ -12,23 +12,26 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 @RestController
-public class UserController {
+public class SessionController {
 
     @Autowired
     private UserService userService;
 
-    @PostMapping("/users")
-    public ResponseEntity<?> create(
-            @RequestBody User resource
-    ) throws URISyntaxException {
+    @PostMapping("/session")
+    public ResponseEntity<SessionResponseDto> create(
+            @RequestBody SessionRequestDto resource
+            ) throws URISyntaxException {
         String email = resource.getEmail();
-        String name = resource.getName();
         String password = resource.getPassword();
 
-        User user = userService.registerUser(email, name, password);
+        User user = userService.authenticate(email, password);
 
-        String url = "/users/" + user.getId();
-        return ResponseEntity.created(new URI(url)).body("{}");
+        String accessToken = user.getAccessToken();
+
+        String url = "/session";
+        return ResponseEntity.created(new URI(url))
+                .body(SessionResponseDto.builder()
+                .accessToken(accessToken)
+                .build());
     }
-
 }
