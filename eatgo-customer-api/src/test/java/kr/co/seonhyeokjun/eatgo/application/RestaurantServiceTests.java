@@ -3,7 +3,6 @@ package kr.co.seonhyeokjun.eatgo.application;
 import kr.co.seonhyeokjun.eatgo.domain.*;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -11,7 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
@@ -19,7 +19,6 @@ import static org.mockito.Mockito.verify;
 
 public class RestaurantServiceTests {
 
-    @InjectMocks
     private RestaurantService restaurantService;
 
     @Mock
@@ -32,12 +31,14 @@ public class RestaurantServiceTests {
     private ReviewRepository reviewRepository;
 
     @Before
-    public void setUp() {
+    public void setUp(){
         MockitoAnnotations.initMocks(this);
 
         mockRestaurantRepository();
         mockMenuItemRepository();
         mockReviewRepository();
+
+        restaurantService = new RestaurantService(restaurantRepository, menuItemRepository, reviewRepository);
     }
 
     private void mockRestaurantRepository() {
@@ -45,17 +46,17 @@ public class RestaurantServiceTests {
         Restaurant restaurant = Restaurant.builder()
                 .id(1004L)
                 .categoryId(1L)
-                .address("Seoul")
                 .name("Bob zip")
+                .address("Seoul")
                 .build();
+
         restaurants.add(restaurant);
 
-        given(restaurantRepository.findAllByAddressContainingAndCategoryId(
-                "Seoul", 1L))
+        given(restaurantRepository.findAllByAddressContainingAndCategoryId("Seoul", 1L))
                 .willReturn(restaurants);
 
-        given(restaurantRepository.findById(1004L))
-                .willReturn(Optional.of(restaurant));
+        given(restaurantRepository.findById(1004L)).willReturn(Optional.of(restaurant));
+
     }
 
     private void mockMenuItemRepository() {
@@ -63,9 +64,7 @@ public class RestaurantServiceTests {
         menuItems.add(MenuItem.builder()
                 .name("Kimchi")
                 .build());
-
-        given(menuItemRepository.findAllByRestaurantId(1004L))
-                .willReturn(menuItems);
+        given(menuItemRepository.findAllByRestaurantId(1004L)).willReturn(menuItems);
     }
 
     private void mockReviewRepository() {
@@ -81,16 +80,15 @@ public class RestaurantServiceTests {
     }
 
     @Test
-    public void getRestaurants() {
+    public void getRestaurants(){
         String region = "Seoul";
         Long categoryId = 1L;
 
-        List<Restaurant> restaurants =
-                restaurantService.getRestaurants(region, categoryId);
+        List<Restaurant> restaurants = restaurantService.getRestaurants(region, categoryId);
 
         Restaurant restaurant = restaurants.get(0);
 
-        assertThat(restaurant.getId()).isEqualTo(1004L);
+        assertThat(restaurant.getId(), is(1004L));
     }
 
     @Test
@@ -100,15 +98,15 @@ public class RestaurantServiceTests {
         verify(menuItemRepository).findAllByRestaurantId(eq(1004L));
         verify(reviewRepository).findAllByRestaurantId(eq(1004L));
 
-        assertThat(restaurant.getId()).isEqualTo(1004L);
+        assertThat(restaurant.getId(), is(1004L));
 
         MenuItem menuItem = restaurant.getMenuItems().get(0);
 
-        assertThat(menuItem.getName()).isEqualTo("Kimchi");
+        assertThat(menuItem.getName(), is("Kimchi"));
 
         Review review = restaurant.getReviews().get(0);
 
-        assertThat(review.getDescription()).isEqualTo("Bad");
+        assertThat(review.getDescription(), is("Bad"));
     }
 
     @Test(expected = RestaurantNotFoundException.class)
@@ -117,7 +115,7 @@ public class RestaurantServiceTests {
     }
 
     @Test
-    public void addRestaurant() {
+    public void addRestaurant(){
         given(restaurantRepository.save(any())).will(invocation -> {
             Restaurant restaurant = invocation.getArgument(0);
             restaurant.setId(1234L);
@@ -125,21 +123,19 @@ public class RestaurantServiceTests {
         });
 
         Restaurant restaurant = Restaurant.builder()
-                .categoryId(1L)
                 .name("BeRyong")
                 .address("Busan")
                 .build();
 
         Restaurant created = restaurantService.addRestaurant(restaurant);
 
-        assertThat(created.getId()).isEqualTo(1234L);
+        assertThat(created.getId(), is(1234L));
     }
 
     @Test
-    public void updateRestaurant() {
+    public void updateRestaurant(){
         Restaurant restaurant = Restaurant.builder()
                 .id(1004L)
-                .categoryId(1L)
                 .name("Bob zip")
                 .address("Seoul")
                 .build();
@@ -147,11 +143,9 @@ public class RestaurantServiceTests {
         given(restaurantRepository.findById(1004L))
                 .willReturn(Optional.of(restaurant));
 
-        restaurantService.updateRestaurant(1004L, 2L, "Sool zip", "Busan");
+        restaurantService.updateRestaurant(1004L, "Sool zip", "Busan");
 
-        assertThat(restaurant.getCategoryId()).isEqualTo(2L);
-        assertThat(restaurant.getName()).isEqualTo("Sool zip");
-        assertThat(restaurant.getAddress()).isEqualTo("Busan");
+        assertThat(restaurant.getName(), is("Sool zip"));
+        assertThat(restaurant.getAddress(), is("Busan"));
     }
-
 }

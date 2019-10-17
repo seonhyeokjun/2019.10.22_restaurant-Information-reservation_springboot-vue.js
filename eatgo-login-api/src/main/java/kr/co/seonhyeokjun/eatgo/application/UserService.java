@@ -7,6 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -27,10 +28,11 @@ public class UserService {
         User user = userRepostory.findByEmail(email)
                 .orElseThrow(() -> new EmailNotExistedException(email));
 
-        if (!passwordEncoder.matches(password, user.getPassword())) {
+        if(!passwordEncoder.matches(password, user.getPassword())){
             throw new PasswordWrongException();
         }
 
         return user;
     }
+
 }

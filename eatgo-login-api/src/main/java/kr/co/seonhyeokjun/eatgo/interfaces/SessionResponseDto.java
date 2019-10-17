@@ -6,7 +6,5 @@ import lombok.Data;
 @Data
 @Builder
 public class SessionResponseDto {
-
     private String accessToken;
-
 }

@@ -27,4 +27,5 @@ public class MenuItem {
     @Transient
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     private boolean destroy;
+
 }

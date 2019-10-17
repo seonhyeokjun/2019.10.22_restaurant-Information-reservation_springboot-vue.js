@@ -26,7 +26,7 @@ public class UserService {
 
     public User registerUser(String email, String name, String password) {
         Optional<User> existed = userRepostory.findByEmail(email);
-        if (existed.isPresent()) {
+        if (existed.isPresent()){
             throw new EmailExistedException(email);
         }
 
@@ -41,4 +41,5 @@ public class UserService {
 
         return userRepostory.save(user);
     }
+
 }

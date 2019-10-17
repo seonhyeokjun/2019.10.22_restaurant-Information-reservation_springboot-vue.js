@@ -27,12 +27,14 @@ public class MenuItemServiceTests {
     private MenuItemRepository menuItemRepository;
 
     @Before
-    public void setUp() {
+    public void setUp(){
         MockitoAnnotations.initMocks(this);
+
+        menuItemService = new MenuItemService(menuItemRepository);
     }
 
     @Test
-    public void getMenuItems() {
+    public void getMenuItems(){
         List<MenuItem> mockMenuItems = new ArrayList<>();
         mockMenuItems.add(MenuItem.builder().name("Kimchi").build());
 
@@ -47,7 +49,7 @@ public class MenuItemServiceTests {
     }
 
     @Test
-    public void bulkUpdate() {
+    public void bulkUpdate(){
         List<MenuItem> menuItems = new ArrayList<MenuItem>();
 
         menuItems.add(MenuItem.builder().name("Kimchi").build());
@@ -59,5 +61,4 @@ public class MenuItemServiceTests {
         verify(menuItemRepository, times(2)).save(any());
         verify(menuItemRepository, times(1)).deleteById(eq(1004L));
     }
-
 }

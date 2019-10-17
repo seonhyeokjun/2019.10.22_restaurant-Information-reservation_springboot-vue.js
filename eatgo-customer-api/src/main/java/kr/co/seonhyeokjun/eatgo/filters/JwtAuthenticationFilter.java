@@ -33,7 +33,7 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
     ) throws IOException, ServletException {
         Authentication authentication = getAuthentication(request);
 
-        if (authentication != null) {
+        if (authentication != null){
             SecurityContext context = SecurityContextHolder.getContext();
             context.setAuthentication(authentication);
         }
@@ -41,16 +41,15 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
         chain.doFilter(request, response);
     }
 
-    private Authentication getAuthentication(HttpServletRequest request) {
+    private Authentication getAuthentication(HttpServletRequest request){
         String token = request.getHeader("Authorization");
-        if (token == null) {
+        if (token == null){
             return null;
         }
 
         Claims claims = jwtUtil.getClaims(token.substring("Bearer ".length()));
 
-        Authentication authentication =
-                new UsernamePasswordAuthenticationToken(claims, null);
+        Authentication authentication = new UsernamePasswordAuthenticationToken(claims, null);
         return authentication;
     }
 }

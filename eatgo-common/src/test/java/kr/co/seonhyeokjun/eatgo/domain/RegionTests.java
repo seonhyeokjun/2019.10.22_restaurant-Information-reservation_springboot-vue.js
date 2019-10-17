@@ -2,15 +2,18 @@ package kr.co.seonhyeokjun.eatgo.domain;
 
 import org.junit.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.*;
 
 public class RegionTests {
 
     @Test
-    public void creation() {
-        Region region = Region.builder().name("서울").build();
+    public void creation(){
+        Region region = Region.builder()
+                .name("서울")
+                .build();
 
-        assertThat(region.getName()).isEqualTo("서울");
+        assertThat(region.getName(), is("서울"));
     }
 
 }

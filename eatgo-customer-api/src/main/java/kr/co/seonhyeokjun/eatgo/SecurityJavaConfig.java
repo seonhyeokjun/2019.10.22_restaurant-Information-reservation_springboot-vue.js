@@ -43,8 +43,7 @@ public class SecurityJavaConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public JwtUtil jwtUtil() {
+    public JwtUtil jwtUtil(){
         return new JwtUtil(secret);
     }
-
 }

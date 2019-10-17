@@ -11,6 +11,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -29,6 +31,7 @@ public class UserControllerTests {
 
     @Test
     public void create() throws Exception {
+
         User mockUser = User.builder()
                 .id(1004L)
                 .email("tester@example.com")
@@ -41,13 +44,10 @@ public class UserControllerTests {
 
         mvc.perform(post("/users")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"email\":\"tester@example.com\"," +
-                        "\"name\":\"Tester\",\"password\":\"test\"}"))
+                .content("{\"email\":\"tester@example.com\",\"name\":\"Tester\",\"password\":\"test\"}"))
                 .andExpect(status().isCreated())
                 .andExpect(header().string("location", "/users/1004"));
 
-        verify(userService)
-                .registerUser("tester@example.com", "Tester", "test");
+        verify(userService).registerUser(eq("tester@example.com"), eq("Tester"), eq("test"));
     }
-
 }

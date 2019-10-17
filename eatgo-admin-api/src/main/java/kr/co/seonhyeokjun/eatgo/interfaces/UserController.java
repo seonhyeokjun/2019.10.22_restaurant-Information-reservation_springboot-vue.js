@@ -10,7 +10,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 
-@CrossOrigin
 @RestController
 public class UserController {
 
@@ -18,9 +17,8 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/users")
-    public List<User> list() {
+    public List<User> list(){
         List<User> users = userService.getUsers();
-
         return users;
     }
 
@@ -33,7 +31,7 @@ public class UserController {
 
         User user = userService.addUser(email, name);
 
-        String url = "/users/" + user.getId();
+        String url = "/users/1" + user.getId();
 
         return ResponseEntity.created(new URI(url)).body("{}");
     }
@@ -42,7 +40,7 @@ public class UserController {
     public String update(
             @PathVariable("id") Long id,
             @RequestBody User resource
-    ) {
+    ){
         String email = resource.getEmail();
         String name = resource.getName();
         Long level = resource.getLevel();
@@ -53,9 +51,10 @@ public class UserController {
     }
 
     @DeleteMapping("/users/{id}")
-    public String delete(@PathVariable("id") Long id) {
+    public  String delete(
+            @PathVariable("id") Long id
+    ){
         userService.deactiveUser(id);
-
         return "{}";
     }
 

@@ -5,9 +5,9 @@ import kr.co.seonhyeokjun.eatgo.domain.MenuItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
-@CrossOrigin
 @RestController
 public class MenuItemController {
 
@@ -22,13 +22,8 @@ public class MenuItemController {
     }
 
     @PatchMapping("/restaurants/{restaurantId}/menuitems")
-    public String bulkUpate(
-            @PathVariable("restaurantId") Long restaurantId,
-            @RequestBody List<MenuItem> menuItems
-    ) {
+    public String bulkUpdate(@PathVariable("restaurantId") Long restaurantId, @RequestBody List<MenuItem> menuItems){
         menuItemService.bulkUpdate(restaurantId, menuItems);
-
         return "";
     }
-
 }

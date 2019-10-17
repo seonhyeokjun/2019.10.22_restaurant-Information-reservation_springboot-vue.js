@@ -50,16 +50,19 @@ public class UserControllerTests {
 
     @Test
     public void create() throws Exception {
-        String email = "admin@exmaple.com";
+        String email = "admin@example.com";
         String name = "Administrator";
 
-        User user = User.builder().email(email).name(name).build();
+        User user = User.builder()
+                .email(email)
+                .name(name)
+                .build();
 
         given(userService.addUser(email, name)).willReturn(user);
 
         mvc.perform(post("/users")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"email\":\"admin@exmaple.com\",\"name\":\"Administrator\"}"))
+                .content("{\"email\":\"admin@example.com\", \"name\":\"Administrator\"}"))
                 .andExpect(status().isCreated());
 
         verify(userService).addUser(email, name);
@@ -67,14 +70,15 @@ public class UserControllerTests {
 
     @Test
     public void update() throws Exception {
+
         mvc.perform(patch("/users/1004")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"email\":\"admin@exmaple.com\"," +
-                        "\"name\":\"Administrator\",\"level\":100}"))
+                .content("{\"email\":\"admin@example.com\", " +
+                        "\"name\":\"Administrator\", \"level\":100}"))
                 .andExpect(status().isOk());
 
         Long id = 1004L;
-        String email = "admin@exmaple.com";
+        String email = "admin@example.com";
         String name = "Administrator";
         Long level = 100L;
 

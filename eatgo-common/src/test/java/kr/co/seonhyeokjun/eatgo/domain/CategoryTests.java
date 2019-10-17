@@ -2,15 +2,18 @@ package kr.co.seonhyeokjun.eatgo.domain;
 
 import org.junit.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.*;
 
 public class CategoryTests {
 
     @Test
-    public void creation() {
-        Category category = Category.builder().name("Korean Food").build();
+    public void creation(){
+        Category category = Category.builder()
+                .name("Korean Food")
+                .build();
 
-        assertThat(category.getName()).isEqualTo("Korean Food");
+        assertThat(category.getName(), is("Korean Food"));
     }
 
 }

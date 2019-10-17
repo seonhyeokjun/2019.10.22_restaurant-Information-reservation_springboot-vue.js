@@ -5,11 +5,9 @@ import kr.co.seonhyeokjun.eatgo.domain.RegionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
-@Transactional
 public class RegionService {
 
     private RegionRepository regionRepository;
@@ -26,7 +24,9 @@ public class RegionService {
     }
 
     public Region addRegion(String name) {
-        Region region = Region.builder().name(name).build();
+        Region region = Region.builder()
+                .name(name)
+                .build();
 
         regionRepository.save(region);
 
