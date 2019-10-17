@@ -1,12 +1,11 @@
 package kr.co.seonhyeokjun.eatgo.utils;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.stereotype.Component;
 
-import javax.crypto.SecretKey;
 import java.security.Key;
 
 public class JwtUtil {
@@ -17,11 +16,15 @@ public class JwtUtil {
         this.key = Keys.hmacShaKeyFor(secret.getBytes());
     }
 
-    public String createToken(long userid, String name) {
+    public String createToken(long userid, String name, Long restaurantId) {
 
-        return Jwts.builder()
+        JwtBuilder bulider = Jwts.builder()
                 .claim("userId", userid)
-                .claim("name", name)
+                .claim("name", name);
+        if (restaurantId != null){
+            bulider = bulider.claim("restaurantId", restaurantId);
+        }
+        return bulider
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
