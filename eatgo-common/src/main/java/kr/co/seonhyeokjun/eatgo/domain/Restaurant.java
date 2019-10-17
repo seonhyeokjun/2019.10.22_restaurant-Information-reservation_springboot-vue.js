@@ -1,5 +1,6 @@
 package kr.co.seonhyeokjun.eatgo.domain;
 
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
@@ -45,7 +46,9 @@ public class Restaurant {
         return name + " in " + address;
     }
 
-    public void updateInformation(String name, String address) {
+    public void updateInformation(Long categoryId,
+                                  String name, String address) {
+        this.categoryId = categoryId;
         this.name = name;
         this.address = address;
     }
@@ -57,4 +60,5 @@ public class Restaurant {
     public void setReviews(List<Review> reviews) {
         this.reviews = new ArrayList<>(reviews);
     }
+
 }

@@ -14,7 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.core.StringContains.containsString;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
@@ -46,7 +46,6 @@ public class MenuItemControllerTests {
                 .andExpect(content().string(containsString("Kimchi")));
     }
 
-
     @Test
     public void bulkUpdate() throws Exception {
         mvc.perform(patch("/restaurants/12/menuitems")
@@ -56,5 +55,4 @@ public class MenuItemControllerTests {
 
         verify(menuItemService).bulkUpdate(eq(12L), any());
     }
-
 }

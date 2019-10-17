@@ -2,7 +2,6 @@ package kr.co.seonhyeokjun.eatgo.interfaces;
 
 import kr.co.seonhyeokjun.eatgo.application.CategoryService;
 import kr.co.seonhyeokjun.eatgo.domain.Category;
-import kr.co.seonhyeokjun.eatgo.domain.Region;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,27 +35,24 @@ public class CategoryControllerTests {
     @Test
     public void list() throws Exception {
         List<Category> categories = new ArrayList<>();
-        categories.add(Category.builder()
-                .name("Seoul")
-                .build());
+        categories.add(Category.builder().name("Korean Food").build());
 
         given(categoryService.getCategories()).willReturn(categories);
 
         mvc.perform(get("/categories"))
                 .andExpect(status().isOk())
-                .andExpect(content().string(containsString("Seoul")));
+                .andExpect(content().string(containsString("Korean Food")));
     }
 
     @Test
     public void create() throws Exception {
-        Category category = Category.builder()
-                .name("Korean Food")
-                .build();
+        Category category = Category.builder().name("Korean Food").build();
+
         given(categoryService.addCategory("Korean Food")).willReturn(category);
 
         mvc.perform(post("/categories")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"name\" : \"Korean Food\"}"))
+                .content("{\"name\":\"Korean Food\"}"))
                 .andExpect(status().isCreated())
                 .andExpect(content().string("{}"));
 

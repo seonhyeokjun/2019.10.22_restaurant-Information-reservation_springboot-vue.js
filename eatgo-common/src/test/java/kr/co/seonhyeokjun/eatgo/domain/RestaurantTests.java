@@ -2,32 +2,32 @@ package kr.co.seonhyeokjun.eatgo.domain;
 
 import org.junit.Test;
 
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class RestaurantTests {
 
     @Test
-    public void creation(){
+    public void creation() {
         Restaurant restaurant = Restaurant.builder()
                 .id(1004L)
                 .name("Bob zip")
                 .address("Seoul")
                 .build();
 
-        assertThat(restaurant.getId(), is(1004L));
-        assertThat(restaurant.getName(), is("Bob zip"));
-        assertThat(restaurant.getAddress(), is("Seoul"));
+        assertThat(restaurant.getId()).isEqualTo(1004L);
+        assertThat(restaurant.getName()).isEqualTo("Bob zip");
+        assertThat(restaurant.getAddress()).isEqualTo("Seoul");
     }
 
     @Test
-    public void information(){
+    public void information() {
         Restaurant restaurant = Restaurant.builder()
                 .id(1004L)
                 .name("Bob zip")
                 .address("Seoul")
                 .build();
 
-        assertThat(restaurant.getInformation(), is("Bob zip in Seoul"));
+        assertThat(restaurant.getInformation()).isEqualTo("Bob zip in Seoul");
     }
+
 }

@@ -7,21 +7,21 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
 public class UserService {
 
-    private UserRepository userRepository;
+    private UserRepository userRepositoy;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public UserService(UserRepository userRepositoy) {
+        this.userRepositoy = userRepositoy;
     }
 
     public List<User> getUsers() {
-        List<User> users = userRepository.findAll();
+        List<User> users = userRepositoy.findAll();
+
         return users;
     }
 
@@ -31,11 +31,13 @@ public class UserService {
                 .name(name)
                 .level(1L)
                 .build();
-        return userRepository.save(user);
+
+        return userRepositoy.save(user);
     }
 
     public User updateUser(Long id, String email, String name, Long level) {
-        User user = userRepository.findById(id).orElse(null);
+        // TODO: restaurantService의 예외 처리 참고.
+        User user = userRepositoy.findById(id).orElse(null);
 
         user.setEmail(email);
         user.setName(name);
@@ -45,10 +47,12 @@ public class UserService {
     }
 
     public User deactiveUser(Long id) {
-        User user = userRepository.findById(id).orElse(null);
+        // TODO: restaurantService의 예외 처리 참고.
+        User user = userRepositoy.findById(id).orElse(null);
 
         user.deativate();
 
         return user;
     }
+
 }

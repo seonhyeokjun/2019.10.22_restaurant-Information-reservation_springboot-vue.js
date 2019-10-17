@@ -16,18 +16,23 @@ public class RestaurantService {
     private ReviewRepository reviewRepository;
 
     @Autowired
-    public RestaurantService(RestaurantRepository restaurantRepository, MenuItemRepository menuItemRepository, ReviewRepository reviewRepository) {
+    public RestaurantService(RestaurantRepository restaurantRepository,
+                             MenuItemRepository menuItemRepository,
+                             ReviewRepository reviewRepository) {
         this.restaurantRepository = restaurantRepository;
         this.menuItemRepository = menuItemRepository;
         this.reviewRepository = reviewRepository;
     }
 
     public List<Restaurant> getRestaurants(String region, long categoryId) {
-        List<Restaurant> restaurants = restaurantRepository.findAllByAddressContainingAndCategoryId(region, categoryId);
+        List<Restaurant> restaurants =
+                restaurantRepository.findAllByAddressContainingAndCategoryId(
+                        region, categoryId);
+
         return restaurants;
     }
 
-    public Restaurant getRestaurant(Long id){
+    public Restaurant getRestaurant(Long id) {
         Restaurant restaurant = restaurantRepository.findById(id)
                 .orElseThrow(() -> new RestaurantNotFoundException(id));
 
@@ -44,12 +49,13 @@ public class RestaurantService {
         return restaurantRepository.save(restaurant);
     }
 
-    @Transactional
-    public Restaurant updateRestaurant(long id, String name, String address) {
+    public Restaurant updateRestaurant(Long id, Long categoryId,
+                                       String name, String address) {
         Restaurant restaurant = restaurantRepository.findById(id).orElse(null);
 
-        restaurant.updateInformation(name, address);
+        restaurant.updateInformation(categoryId, name, address);
 
         return restaurant;
     }
+
 }

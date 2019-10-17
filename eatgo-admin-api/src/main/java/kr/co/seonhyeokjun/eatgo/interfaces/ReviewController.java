@@ -3,14 +3,13 @@ package kr.co.seonhyeokjun.eatgo.interfaces;
 import kr.co.seonhyeokjun.eatgo.application.ReviewService;
 import kr.co.seonhyeokjun.eatgo.domain.Review;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.List;
 
+@CrossOrigin
 @RestController
 public class ReviewController {
 
@@ -18,8 +17,9 @@ public class ReviewController {
     private ReviewService reviewService;
 
     @GetMapping("/reviews")
-    public List<Review> list(){
+    public List<Review> list() {
         List<Review> reviews = reviewService.getReviews();
+
         return reviews;
     }
 

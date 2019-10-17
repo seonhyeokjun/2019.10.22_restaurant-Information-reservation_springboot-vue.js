@@ -2,7 +2,6 @@ package kr.co.seonhyeokjun.eatgo.application;
 
 import kr.co.seonhyeokjun.eatgo.domain.Category;
 import kr.co.seonhyeokjun.eatgo.domain.CategoryRepository;
-import kr.co.seonhyeokjun.eatgo.domain.Region;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,12 +26,11 @@ public class CategoryService {
     }
 
     public Category addCategory(String name) {
-        Category category = Category.builder()
-                .name(name)
-                .build();
+        Category category = Category.builder().name(name).build();
 
         categoryRepository.save(category);
 
         return category;
     }
+
 }

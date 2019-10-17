@@ -7,9 +7,9 @@
     element.innerHTML = `
         ${restaurants.map(restaurant => `
             <p>
-            ${restaurant.id}
-            ${restaurant.name}
-            ${restaurant.address}
+                ${restaurant.id}
+                ${restaurant.name}
+                ${restaurant.address}
             </p>
         `).join('')}
     `;

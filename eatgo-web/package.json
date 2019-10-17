@@ -4,14 +4,14 @@
   "description": "EatGo Web Project",
   "main": "src/index.js",
   "scripts": {
-    "start" : "webpack-dev-server --port 3000",
+    "start": "webpack-dev-server --port 3000",
     "test": "jest"
   },
-  "author": "seon aka JOKER",
+  "author": "Ashal aka JOKER",
   "license": "ISC",
   "devDependencies": {
-    "webpack": "^4.41.0",
-    "webpack-cli": "^3.3.9",
-    "webpack-dev-server": "^3.8.1"
+    "webpack": "^4.35.3",
+    "webpack-cli": "^3.3.5",
+    "webpack-dev-server": "^3.7.2"
   }
 }

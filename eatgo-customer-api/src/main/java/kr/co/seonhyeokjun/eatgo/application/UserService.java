@@ -26,7 +26,7 @@ public class UserService {
 
     public User registerUser(String email, String name, String password) {
         Optional<User> existed = userRepostory.findByEmail(email);
-        if (existed.isPresent()){
+        if (existed.isPresent()) {
             throw new EmailExistedException(email);
         }
 
@@ -41,16 +41,4 @@ public class UserService {
 
         return userRepostory.save(user);
     }
-
-    public User authenticate(String email, String password) {
-        User user = userRepostory.findByEmail(email)
-                .orElseThrow(() -> new EmailNotExistedException(email));
-
-        if(!passwordEncoder.matches(password, user.getPassword())){
-            throw new PasswordWrongException();
-        }
-
-        return user;
-    }
-
 }
